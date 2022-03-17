@@ -21,7 +21,7 @@ function generatePassword() {
   // Generate a password that matches configuration
   // TODO - Insert logic to generate password that matches the selected criteria
 
-  var password = "myPasswordTest";  // TODO - Inserted to test plumbing (remove)
+  var password = "myPasswordTest"; // TODO - Inserted to test plumbing (remove)
   console.log("A new password has been created");
   return password;
 }
@@ -30,7 +30,11 @@ function generatePassword() {
 function collectPasswordConfig() {
   // Initialize object to hold password configuration
   var passwordConfig = {
-
+    passwordLength: 0,
+    lowerCase: false,
+    upperCase: false,
+    numeric: false,
+    specialChars: false,
   };
 
   // Prompt user for password length
@@ -41,6 +45,10 @@ function collectPasswordConfig() {
   console.log("Password length is between 8 and 128 characters");
 
   // Prompt user for additional password configurations
+  passwordConfig.lowerCase = true; // TODO - Update with prompt
+  passwordConfig.upperCase = true; // TODO - Update with prompt
+  passwordConfig.numeric = true; // TODO - Update with prompt
+  passwordConfig.specialChars = true; // TODO - Update with prompt
 
   // Validate that at least one option is selected
   // TODO - Insert password validation code
