@@ -1,7 +1,10 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-// Write password to the #password input
+/**
+ * ! Primary control flow function to write a valid password to the viewport
+ * @returns
+ */
 function writePassword() {
   // Invoke primary function to generate password
   var password = generatePassword();
@@ -14,9 +17,16 @@ function writePassword() {
   console.log("Password written to form");
 }
 
-// Generate password logic will go here
+/**
+ * ! Generate password
+ * @returns password
+ */
 function generatePassword() {
+  // Get a valid password configuration
   var validPasswordConfig = collectPasswordConfig();
+
+  // Get the available characters
+  var availableCharacters = passwordStrength(validPasswordConfig);
 
   // Generate a password that matches configuration
   // TODO - Insert logic to generate password that matches the selected criteria
@@ -26,7 +36,10 @@ function generatePassword() {
   return password;
 }
 
-// Collect password configuration
+/**
+ * ! Collect password configuration
+ * @returns passwordConfig
+ */
 function collectPasswordConfig() {
   // Initialize object to hold password configuration
   var passwordConfig = {
@@ -45,10 +58,10 @@ function collectPasswordConfig() {
   console.log("Password length is between 8 and 128 characters");
 
   // Prompt user for additional password configurations
-  passwordConfig.lowerCase = true; // TODO - Update with prompt
+  passwordConfig.lowerCase = false; // TODO - Update with prompt
   passwordConfig.upperCase = true; // TODO - Update with prompt
   passwordConfig.numeric = true; // TODO - Update with prompt
-  passwordConfig.specialChars = true; // TODO - Update with prompt
+  passwordConfig.specialChars = false; // TODO - Update with prompt
 
   // Validate that at least one option is selected
   // TODO - Insert password validation code
@@ -59,5 +72,43 @@ function collectPasswordConfig() {
   return passwordConfig;
 }
 
-// Add event listener to invoke a series of end user questions to configure a password
+/**
+ * ! Determine password strength
+ * @param {*} validPasswordConfig
+ * @returns possiblePwdCharacters
+ */
+function passwordStrength(validPasswordConfig) {
+  // Four different variables to hold different characters to generate a password
+  var lowercaseLetters = "abcdefghijklmnopqrstuvwxwz";
+  var uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var numeric = "0123456789";
+  var specialCharacters = "!#$%&'()*+,-./:;< => ? @[]^ _`{|}~";
+  var possiblePwdCharacters = "";
+
+  // Add lower case letters if switched on
+  if (validPasswordConfig.lowerCase) {
+    possiblePwdCharacters = possiblePwdCharacters.concat(lowercaseLetters);
+  }
+
+  // Add upper case letters if switched on
+  if (validPasswordConfig.upperCase) {
+    possiblePwdCharacters = possiblePwdCharacters.concat(uppercaseLetters);
+  }
+
+  // Add numeric integers if switched on
+  if (validPasswordConfig.numeric) {
+    possiblePwdCharacters = possiblePwdCharacters.concat(numeric);
+  }
+  
+  // Add special characters if switched on
+  if (validPasswordConfig.specialChars) {
+    possiblePwdCharacters = possiblePwdCharacters.concat(specialCharacters);
+  }
+
+  console.log("Password can contain the following possible characters: " + possiblePwdCharacters);
+
+  return possiblePwdCharacters;
+}
+
+// Event listener to invoke a series of end user questions to configure a password
 generateBtn.addEventListener("click", writePassword);
