@@ -160,7 +160,6 @@ function passwordStrength(validPasswordConfig) {
  */
 function buildPassword(passwordLength, availableCharacters) {
   var constructedPwd = "";
-  var constructedPwd = "";
 
   for (let index = 0; index < passwordLength; index++) {
     var char = Math.floor(Math.random() * availableCharacters.length + 1);
