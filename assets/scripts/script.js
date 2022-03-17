@@ -28,10 +28,12 @@ function generatePassword() {
   // Get the available characters
   var availableCharacters = passwordStrength(validPasswordConfig);
 
-  // Generate a password that matches configuration
-  // TODO - Insert logic to generate password that matches the selected criteria
+  // Construct a password based upon configuration
+  var password = buildPassword(
+    validPasswordConfig.passwordLength,
+    availableCharacters
+  );
 
-  var password = "myPasswordTest"; // TODO - Inserted to test plumbing (remove)
   console.log("A new password has been created");
   return password;
 }
@@ -51,7 +53,7 @@ function collectPasswordConfig() {
   };
 
   // Prompt user for password length
-  passwordConfig.passwordLength = 99; // TODO - Update with prompt
+  passwordConfig.passwordLength = 10; // TODO - Update with prompt
 
   // Validate that the length is at least 8 characters and no more than 128 characters
   // TODO - Insert validation code
@@ -99,15 +101,36 @@ function passwordStrength(validPasswordConfig) {
   if (validPasswordConfig.numeric) {
     possiblePwdCharacters = possiblePwdCharacters.concat(numeric);
   }
-  
+
   // Add special characters if switched on
   if (validPasswordConfig.specialChars) {
     possiblePwdCharacters = possiblePwdCharacters.concat(specialCharacters);
   }
 
-  console.log("Password can contain the following possible characters: " + possiblePwdCharacters);
+  console.log(
+    "Password can contain the following possible characters: " +
+      possiblePwdCharacters
+  );
 
   return possiblePwdCharacters;
+}
+
+/**
+ * ! Generate password based upon end-user configuration
+ * @param {*} passwordLength
+ * @param {*} availableCharacters
+ * @returns constructedPwd
+ */
+function buildPassword(passwordLength, availableCharacters) {
+  var constructedPwd = "";
+  var constructedPwd = "";
+
+  for (let index = 0; index < passwordLength; index++) {
+    var char = Math.floor(Math.random() * availableCharacters.length + 1);
+    constructedPwd += availableCharacters.charAt(char);
+  }
+
+  return constructedPwd;
 }
 
 // Event listener to invoke a series of end user questions to configure a password
