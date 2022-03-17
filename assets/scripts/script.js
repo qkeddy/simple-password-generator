@@ -13,8 +13,12 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   // Write password to page
-  passwordText.value = password;
-  console.log("Password written to form");
+  if (password.length > 0) {
+    passwordText.value = password;
+    console.log("Password written to form");
+  } else {
+    console.log("Password was not provided");
+  }
 }
 
 /**
@@ -24,6 +28,9 @@ function writePassword() {
 function generatePassword() {
   // Get a valid password configuration
   var validPasswordConfig = collectPasswordConfig();
+  if (validPasswordConfig.validConfig == false) {
+    return "";
+  }
 
   // Get the available characters
   var availableCharacters = passwordStrength(validPasswordConfig);
@@ -50,27 +57,57 @@ function collectPasswordConfig() {
     upperCase: false,
     numeric: false,
     specialChars: false,
+    validConfig: false,
   };
 
   // Prompt user for password length
-  passwordConfig.passwordLength = 10; // TODO - Update with prompt
+  var pwdLength = parseInt(window.prompt("Please enter a password length"));
 
-  // Validate that the length is at least 8 characters and no more than 128 characters
-  // TODO - Insert validation code
-  console.log("Password length is between 8 and 128 characters");
+  // Validate that the end-user input is a number
+  if (Number.isNaN(pwdLength)) {
+    console.log("A valid number was not entered");
+    window.alert("Please enter a valid number");
+    return passwordConfig;
+  }
+  // Validate that the number is at least 8 characters and no more than 128 characters
+  else if (pwdLength < 8 && pwdLength > 128) {
+    console.log("Password length is not between 8 and 128 characters");
+    window.alert("Please enter a valid number between 8 and 128");
+    return passwordConfig;
+    // Password length is valid.
+  } else {
+    console.log("Valid password length " + pwdLength + " was entered");
+    passwordConfig.passwordLength = pwdLength;
+  }
 
   // Prompt user for additional password configurations
-  passwordConfig.lowerCase = false; // TODO - Update with prompt
-  passwordConfig.upperCase = true; // TODO - Update with prompt
-  passwordConfig.numeric = true; // TODO - Update with prompt
-  passwordConfig.specialChars = false; // TODO - Update with prompt
+  passwordConfig.lowerCase = window.confirm(
+    "Do you want lower case characters?"
+  );
+  passwordConfig.upperCase = window.confirm(
+    "Do you want UPPER case characters?"
+  );
+  passwordConfig.numeric = window.confirm(
+    "Do you want numbers?"
+  );
+  passwordConfig.specialChars = window.confirm(
+    "Do you want lower case characters?"
+  );
 
   // Validate that at least one option is selected
-  // TODO - Insert password validation code
-  console.log("Password configuration has at least one option selected");
-
-  // Return validated configuration
-  console.log("Password configuration is valid");
+  if (
+    !passwordConfig.lowerCase &&
+    !passwordConfig.upperCase &&
+    !passwordConfig.numeric &&
+    !passwordConfig.specialChars
+  ) {
+    console.log("Password configuration is NOT valid");
+    window.alert("At least one option is required");
+  } else {
+    // Return validated configuration
+    console.log("Password configuration is valid");
+    passwordConfig.validConfig = true;
+  }
   return passwordConfig;
 }
 
@@ -84,7 +121,7 @@ function passwordStrength(validPasswordConfig) {
   var lowercaseLetters = "abcdefghijklmnopqrstuvwxwz";
   var uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var numeric = "0123456789";
-  var specialCharacters = "!#$%&'()*+,-./:;< => ? @[]^ _`{|}~";
+  var specialCharacters = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
   var possiblePwdCharacters = "";
 
   // Add lower case letters if switched on
