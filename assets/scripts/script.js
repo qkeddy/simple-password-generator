@@ -6,6 +6,9 @@ var generateBtn = document.querySelector("#generate");
  * @returns
  */
 function writePassword() {
+  // Clear Chrome console
+  window.console.clear;
+
   // Invoke primary function to generate password
   var password = generatePassword();
 
@@ -70,7 +73,7 @@ function collectPasswordConfig() {
     return passwordConfig;
   }
   // Validate that the number is at least 8 characters and no more than 128 characters
-  else if (pwdLength < 8 && pwdLength > 128) {
+  else if (pwdLength < 8 || pwdLength > 128) {
     console.log("Password length is not between 8 and 128 characters");
     window.alert("Please enter a valid number between 8 and 128");
     return passwordConfig;
@@ -87,9 +90,7 @@ function collectPasswordConfig() {
   passwordConfig.upperCase = window.confirm(
     "Do you want UPPER case characters?"
   );
-  passwordConfig.numeric = window.confirm(
-    "Do you want numbers?"
-  );
+  passwordConfig.numeric = window.confirm("Do you want numbers?");
   passwordConfig.specialChars = window.confirm(
     "Do you want lower case characters?"
   );
